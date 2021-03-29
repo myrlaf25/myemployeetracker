@@ -56,27 +56,38 @@ VALUES ("Membership Specialist", 46000,  4);
 
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Bob", "Smith",  1, null);
+VALUES ("Bob", "Smith",  1, 1);
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Greg", "Johnson",  2, null);
+VALUES ("Greg", "Johnson",  2, 2);
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Marge", "Simpson",  3, null);
+VALUES ("Marge", "Simpson",  3, 3);
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Diana", "Prince",  4, null);
+VALUES ("Diana", "Prince",  4, 4);
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Peter", "Parker",  5, 1);
+VALUES ("Peter", "Parker",  5, null);
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Wade", "Wilson",  6, 2);
+VALUES ("Wade", "Wilson",  6, null);
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Marie", "D'Ancanto",  6, 2);
+VALUES ("Marie", "D'Ancanto",  6, null);
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Natasha", "Romanoff",  7, 4);
+VALUES ("Natasha", "Romanoff",  7, null);
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Steve", "Rogers",  7, 4);
+VALUES ("Steve", "Rogers",  7, null);
 
 SELECT * FROM department;
 SELECT * FROM roles;
 SELECT * FROM employees;
+
+
+SELECT employees.id, first_name, last_name, title, department_name, department_manager, salary
+FROM employees JOIN roles ON employees.role_id = roles.id
+JOIN department ON roles.department_id= department.id;
+
+
+
+
+
+
 
 
 

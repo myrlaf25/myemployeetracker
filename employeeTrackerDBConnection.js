@@ -149,17 +149,45 @@ function addEmployee () {
     .then(function (response) {
       console.log(response);
       const query =
-        "INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?);";
+        "INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);";
+        
 
       const addedEmp = connection.query(
         query,
         [response.addFirstName, response.addLastName, response.employeeRole, response.employeeManager],
         function (err, data) {
+            if (err) throw err;
           console.log("Added Employee", response.addFirstName, response.addLastName);
-          console.table(addedEmp.sql);
+          console.log(addedEmp.sql);
+          console.table("Successfully added employee!")
+          
           init();
         }
       );
     });
 }
 
+
+const updateEmployeeRole = () => {
+    console.log('Updating employee role...\n');
+    const query = connection.query(
+      'UPDATE ?? SET ? WHERE ?',
+      [
+        {
+          fisrt_name: response.first_name,
+        },
+        {
+            last_name: response.last_name,
+          },
+        {
+          title: response.title,
+        },
+      ],
+      (err, res) => {
+        if (err) throw err;
+        console.log(`${res.affectedRows} employee updated!\n`);
+                
+      }
+    );
+}
+  
