@@ -185,12 +185,7 @@ function addEmployee() {
 
       const addedEmp = connection.query(
         query,
-        [
-          response.addFirstName,
-          response.addLastName,
-          role_id,
-          manager_id,
-        ],
+        [response.addFirstName, response.addLastName, role_id, manager_id],
         function (err, data) {
           console.log(
             "Added Employee",
@@ -198,7 +193,6 @@ function addEmployee() {
             response.addLastName
           );
 
-          
           console.log(addedEmp.sql);
 
           console.log("Successfully added employee!");
@@ -225,13 +219,19 @@ function addDepartment() {
     ])
     .then(function (response) {
       console.log(response);
-      let query = "INSERT INTO department (department_name, department_manager) VALUES (?, ?);";
+      let query =
+        "INSERT INTO department (department_name, department_manager) VALUES (?, ?);";
 
       const addedDep = connection.query(
         query,
         [response.department, response.depManager],
         function (err, data) {
-          console.log("Added department", response.department, " and manager", response.depManager);
+          console.log(
+            "Added department",
+            response.department,
+            " and manager",
+            response.depManager
+          );
           console.log(addedDep.sql);
           init();
         }
@@ -261,7 +261,12 @@ function addRole() {
         query,
         [response.role, response.salary],
         function (err, data) {
-          console.log("Added role", response.role, " and salary", response.salary);
+          console.log(
+            "Added role",
+            response.role,
+            " and salary",
+            response.salary
+          );
           console.log(addedRole.sql);
           init();
         }
@@ -269,59 +274,56 @@ function addRole() {
     });
 }
 function updateEmployeeRole() {
-    connection.query("SELECT * FROM employees", function (err, employee) {
-      // console.table(employee);
+  connection.query("SELECT * FROM employees", function (err, employee) {
+    // console.table(employee);
+    if (err) throw err;
+
+    connection.query("SELECT * FROM roles", function (err, role) {
+      //   console.table(role);
       if (err) throw err;
-  
-      connection.query("SELECT * FROM roles", function (err, role) {
-      //   console.table(role);
-        if (err) throw err;
-  
+
       connection.query("SELECT * FROM department", function (err, department) {
-      //   console.table(role);
+        //   console.table(role);
         if (err) throw err;
-  
+
         inquirer
           .prompt([
-          {
+            {
               type: "list",
               name: "employeeName",
               message: "What employee would you like to update?",
-              choices: employee.map((employees) => (
-              {
+              choices: employee.map((employees) => ({
                 name: employees.first_name + " " + employees.last_name,
                 value: employees.id,
-              }),
-              
-               ),
-          },
-          {
+              })),
+            },
+            {
               type: "list",
               name: "role",
               message: "What is the employee's updated role?",
               choices: role.map((roles) => ({
                 name: roles.title,
                 value: roles.id,
-              }),
-              ),
-          }])
+              })),
+            },
+          ])
           .then(function (response) {
             console.log(response);
-  
+
             let query =
-            "UPDATE employees SET role_id=roles.id FROM roles WHERE roles.id= roles.title FROM department WHERE department.id=roles.department_id;";
+              "UPDATE employees SET role_id=roles.id FROM roles WHERE roles.id= roles.title FROM department WHERE department.id=roles.department_id;";
             const updatedEmp = connection.query(
               query,
               [response.role],
               function (err, data) {
                 console.log("Updated employee role to ", response.role);
                 console.log(updatedEmp.sql);
-  
+
                 init();
               }
             );
           });
       });
     });
-  })}
-  
+  });
+}
