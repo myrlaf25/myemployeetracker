@@ -40,46 +40,23 @@ VALUES ("Membership", "Diana Prince");
 
 
 INSERT INTO roles (title, salary, department_id)
-VALUES ("Development Manager", 100000,  1);
-INSERT INTO roles (title, salary, department_id)
-VALUES ("Events Manager", 95000,  2);
-INSERT INTO roles (title, salary, department_id)
-VALUES ("Accountant", 85000,  3);
-INSERT INTO roles (title, salary, department_id)
-VALUES ("Database Administrator", 85000,  4);
-INSERT INTO roles (title, salary, department_id)
-VALUES ("Development Coordinator", 45000,  1);
-INSERT INTO roles (title, salary, department_id)
-VALUES ("Events Coordinator", 48000,  2);
-INSERT INTO roles (title, salary, department_id)
-VALUES ("Membership Specialist", 46000,  4);
+VALUES ("Development Manager", 100000,  1), ("Events Manager", 95000,  2), ("Accountant", 85000,  3), ("Database Administrator", 85000,  4),
+("Development Coordinator", 45000,  1),("Events Coordinator", 48000,  2), ("Membership Specialist", 46000,  4);
 
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Bob", "Smith",  1, 1);
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Greg", "Johnson",  2, 2);
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Marge", "Simpson",  3, 3);
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Diana", "Prince",  4, 4);
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Peter", "Parker",  5, null);
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Wade", "Wilson",  6, null);
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Marie", "D'Ancanto",  6, null);
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Natasha", "Romanoff",  7, null);
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Steve", "Rogers",  7, null);
+VALUES ("Bob", "Smith",  1, 1), ("Greg", "Johnson",  2, 2), ("Marge", "Simpson",  3, 3),
+("Diana", "Prince",  4, 4), ("Peter", "Parker",  5, null),
+("Wade", "Wilson",  6, null), ("Marie", "D'Ancanto",  6, null), ("Natasha", "Romanoff",  7, null),
+("Steve", "Rogers",  7, null);
+
 
 SELECT * FROM department;
 SELECT * FROM roles;
 SELECT * FROM employees;
 
 
-SELECT employees.id, first_name, last_name, title, department_name, department_manager, salary
+SELECT employees.id, first_name, last_name, title AS "role_id", department_name AS "department", department_manager AS "manager", manager_id, salary
 FROM employees JOIN roles ON employees.role_id = roles.id
 JOIN department ON roles.department_id= department.id;
 
