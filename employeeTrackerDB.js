@@ -268,3 +268,60 @@ function addRole() {
       );
     });
 }
+function updateEmployeeRole() {
+    connection.query("SELECT * FROM employees", function (err, employee) {
+      // console.table(employee);
+      if (err) throw err;
+  
+      connection.query("SELECT * FROM roles", function (err, role) {
+      //   console.table(role);
+        if (err) throw err;
+  
+      connection.query("SELECT * FROM department", function (err, department) {
+      //   console.table(role);
+        if (err) throw err;
+  
+        inquirer
+          .prompt([
+          {
+              type: "list",
+              name: "employeeName",
+              message: "What employee would you like to update?",
+              choices: employee.map((employees) => (
+              {
+                name: employees.first_name + " " + employees.last_name,
+                value: employees.id,
+              }),
+              
+               ),
+          },
+          {
+              type: "list",
+              name: "role",
+              message: "What is the employee's updated role?",
+              choices: role.map((roles) => ({
+                name: roles.title,
+                value: roles.id,
+              }),
+              ),
+          }])
+          .then(function (response) {
+            console.log(response);
+  
+            let query =
+            "UPDATE employees SET role_id=roles.id FROM roles WHERE roles.id= roles.title FROM department WHERE department.id=roles.department_id;";
+            const updatedEmp = connection.query(
+              query,
+              [response.role],
+              function (err, data) {
+                console.log("Updated employee role to ", response.role);
+                console.log(updatedEmp.sql);
+  
+                init();
+              }
+            );
+          });
+      });
+    });
+  })}
+  
