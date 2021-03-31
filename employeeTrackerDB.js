@@ -30,6 +30,7 @@ function init() {
           "View All Employees",
           "View All Departments",
           "View All Roles",
+          "View All",
           "Add Employee",
           "Add Department",
           "Add Role",
@@ -49,6 +50,9 @@ function init() {
         case "View All Roles":
           viewRoles();
           break;
+        case "View All":
+          viewAll();
+          break;
         case "Add Employee":
           addEmployee();
           break;
@@ -59,7 +63,7 @@ function init() {
           addRole();
           break;
         case "Update Employee Role":
-          updateEmployee();
+          updateEmployeeRole();
           break;
         default:
           connection.end();
@@ -184,8 +188,8 @@ function addEmployee() {
         [
           response.addFirstName,
           response.addLastName,
-          response.employeeRole,
-          response.employeeManager,
+          role_id,
+          manager_id,
         ],
         function (err, data) {
           console.log(
@@ -193,6 +197,8 @@ function addEmployee() {
             response.addFirstName,
             response.addLastName
           );
+
+          
           console.log(addedEmp.sql);
 
           console.log("Successfully added employee!");
@@ -219,14 +225,14 @@ function addDepartment() {
     ])
     .then(function (response) {
       console.log(response);
-
       let query = "INSERT INTO department (department_name, department_manager) VALUES (?, ?);";
 
       const addedDep = connection.query(
         query,
-        [response.department],
+        [response.department, response.depManager],
         function (err, data) {
-          console.log("Added department", response.department, response.depManager);
+          console.log("Added department", response.department, " and manager", response.depManager);
+          console.log(addedDep.sql);
           init();
         }
       );
@@ -253,9 +259,10 @@ function addRole() {
 
       const addedRole = connection.query(
         query,
-        [response.role],
+        [response.role, response.salary],
         function (err, data) {
-          console.log("Added role", response.role);
+          console.log("Added role", response.role, " and salary", response.salary);
+          console.log(addedRole.sql);
           init();
         }
       );
