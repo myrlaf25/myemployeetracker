@@ -254,19 +254,12 @@ function addRole() {
     ])
     .then(function (response) {
       console.log(response);
-
       let query = "INSERT INTO roles (title, salary) VALUES (?, ?);";
-
       const addedRole = connection.query(
         query,
         [response.role, response.salary],
         function (err, data) {
-          console.log(
-            "Added role",
-            response.role,
-            " and salary",
-            response.salary
-          );
+          console.log("Added role", response.role, " and salary", response.salary);
           console.log(addedRole.sql);
           init();
         }
